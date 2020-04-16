@@ -31,53 +31,75 @@ import java.util.*
  */
 fun main() {
 
+    val citizen1: Citizen? = Citizen("Hans", 30, "Berlin")
+    val citizen2 = Citizen("Tom", 24, "Washington")
 
-    // Info 🔥 let, with, apply, also, run Functions
+    // Info 🔥 There are 6 scoping functions : T.run, T.let, T.apply, T.also, with, run Functions
+    // T is the receiver object
 
-    val myString = "Hello"
-
-    // this -> Lambda result
-    val runObject: Unit = myString.run {
-        println("str.run-> The receiver string length: $length")
+    // 🔥 1 - T.run   -   this, nothing -> Lambda result      -   returns anything
+    val total: Int? = citizen1?.run {
+        println("T.run - ${this.age} - $age")
         //println("The receiver string length: ${this.length}") // does the same
+        this.name.length + age + this.residence.length
     }
+    println("return value of run :  $total")
 
-    // it -> Lambda result
-    val letObject: Unit = myString.let {
-        println("str.let-> The receiver string's length is ${it.length}")
+
+    // 🔥 2 - T.let   -   it -> Lambda result    -   returns anything
+    val total2: Int = citizen1?.let {
+        println("T.let - ${it.age}")
+        it.age + it.residence.length + it.name.length
+    } ?: -1
+    println("return value of let :  $total2")
+
+
+    // 🔥 3 - T.apply     -   this or nothing -> Context object      -   returns self(receiver object)
+    val id: Int? = User().apply {
+        id = 100
+        this.id = 200
+        println("T.apply - The receiver object is citizen4. id : $id - id : ${this.id}")
+    }.id
+
+
+    // 🔥 4 - T.also  -   it -> Context object       -   returns self(receiver object)
+    val citizenNew: Citizen = citizen2.also {
+        it.age = 77
     }
+    println("T.also returns T -  name : ${citizenNew.age}")
 
-    // this -> Context object
-    val strApply: String = myString.apply {
-        println("str.apply-> The receiver string length: $length")
+
+    // 🔥5 - with    -   this or nothing -> Context object   -   returns anything
+    val age = with(citizen2) {
+        println("$name -  $age  $residence ")
+        age = this.age + age
+        residence = "Florida"
+        age++
     }
+    println("${citizen2.name} -  ${citizen2.age} - $age - ${citizen2.residence}  ")
 
-    // it -> Context object
-    val strAlso: String = myString.also {
 
+    // 🔥 6 - run    -   returns anything
+    var mood = "I am sad"
+    var mood2 = run {
+        val mood = "I am happy"
+        println(mood) // I am happy
+        "I am excited"
     }
+    println("mood : $mood - mood2 : $mood2" )  // I am sad - I am excited
 
 
-    val withObject = with(myString) {
-
-    }
-
-    val runObject2 = run {
-
-    }
+    /* 🔥🔥🔥 other examples are below 🔥🔥🔥*/
 
 
-    val citizen1 = Citizen("Hans", 30, "Berlin")
 
-
-    val test = citizen1.let {
+    val test = citizen1?.let {
         it.moveTo("Amsterdam")
         it.increment(it.age)
     }
 
 
     // INFO 🔥 let
-
     val numberList = mutableListOf("one", "two", "three", "four", "five")
     numberList.map { it.length }.filter { it > 3 }.let {
         println("NumberList let() it: $it")
@@ -220,7 +242,7 @@ fun displaySubstringPositionWithout(input: String, sub: String) {
 }
 
 
-class Citizen(val name: String, var age: Int, var residence: String) {
+class Citizen(var name: String, var age: Int, var residence: String) {
 
     fun moveTo(city: String) {
         residence = city
@@ -231,10 +253,22 @@ class Citizen(val name: String, var age: Int, var residence: String) {
     }
 }
 
+class User(var id:Int?=-1)
+
 class Bar() {
 
     var foo1: Color? = null
     var foo2: String? = null
 
+}
+
+fun test() {
+    var mood = "I am sad"
+
+    run {
+        val mood = "I am happy"
+        println(mood) // I am happy
+    }
+    println(mood)  // I am sad
 }
 
