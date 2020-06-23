@@ -38,5 +38,17 @@ fun main() {
     println("Hello!$escapedString")
     println("Hey!!$rawString")
 
+    val obj = SomeObj()
+    takeObject(obj)
+    println("obj after call: ${obj.x}") // obj after call: 1
+}
 
+data class SomeObj(var x: Int = 0)
+
+/*1 - members of object can be changed inside a function
+  2 - the object which parameter o refers can not be changed. In other words, new object cannot be assigned to o. */
+fun takeObject(o: SomeObj) {
+    o.x = 1
+    var o1 = o
+    o1 = SomeObj(2)
 }
