@@ -22,10 +22,13 @@ package chapter1Basics
 *
 *   💥 return@labelOfLambda is continue-like control in lambda.
 *
+*   🎸 You are recommended look at Tutorial4_1HighOrderFunctions_2.kt for usage of repeat, high order function, return and exception concepts together
+*
 * https://improve-future.com/en/kotlin-why-while-break-or-continue-cant-be-used-in-foreacn-repeat-which-can-be-used-in-while-and-for.html
+* https://kotlinlang.org/docs/reference/returns.html
 * */
 
-fun main(){
+fun main() {
     forEachSample1()
     forEachSample2()
     forEachSample3()
@@ -136,7 +139,7 @@ fun forEachSample5() {
 * */
 fun forEachSample6() {
     println()
-    run{
+    run {
         listOf(1, 2, 3).forEach(
             fun(value) {
                 println(value)
